@@ -28,7 +28,8 @@ describe "QuoteDisplayer" do
   describe "at GET request" do
     let(:request) { Rack::MockRequest.new(app) }
     let(:response) { request.get('/') }
-    let(:invalidparam) { request.get('/gsw') }
+    let(:response2) { request.get('/') }
+    let(:invalidparam) { request.get('/GSW4LYF') }
 
     context "defaults" do
       it "to GET" do
@@ -41,17 +42,47 @@ describe "QuoteDisplayer" do
     end
 
     context "with valid params" do
-      it "is valid with a valid params"
-      it "returns a quote as a text format"
-      it "returns a single quote"
-      it "returns a random quote" do
+      it "is valid with a valid params" do
+        expect(response.body).to be_truthy
+      end
+
+      it "returns a quote" do
         expect(app.quotes).to include(response.body)
+      end
+
+      it "returns a quote as a string" do
+        expect(response.body).to be_a(String)
+      end
+
+      it "returns a single quote" do
+        expect{ (response.body).to match(/\w+.?\/n$/)}
+      end
+
+      it "returns a random quote" do
+        expect(response.body).not_to eq(response2.body)
       end
     end
 
     context "with invalid params" do
-      it "raises an error for invalid params"
-      it "re-renders the get method"
+      it "is valid with a invalid params" do
+        expect(invalidparam.body).to be_truthy
+      end
+
+      it "returns a quote" do
+        expect(app.quotes).to include(invalidparam.body)
+      end
+
+      it "returns a quote as a string" do
+        expect(invalidparam.body).to be_a(String)
+      end
+
+      it "returns a single quote" do
+        expect{ (response.body).to match(/\w+.?\/n$/)}
+      end
+
+      it "returns a random quote" do
+        expect(invalidparam.body).not_to eq(response2.body)
+      end
     end
   end
 end
