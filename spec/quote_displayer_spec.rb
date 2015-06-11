@@ -51,9 +51,12 @@ describe "QuoteDisplayer" do
         expect(app.quotes).to include(response.body)
       end
 
-      it "returns a quote as a string" do
-        expect(response.body).to be_a(String)
+      xit "returns a response as text/plain" do
+        p response
+        p ">>" * 90
+        quoteapp.env["CONTENT_TYPE"].should_not == "application/x-www-form-urlencoded"
       end
+      #not sure how to test content_type for middleware
 
       it "returns a single quote" do
         expect{ (response.body).to match(/\w+.?\/n$/)}

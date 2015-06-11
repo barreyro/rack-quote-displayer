@@ -9,12 +9,12 @@ class QuoteDisplayer
   def call(env) #environment hash
     req = Rack::Request.new(env)
     if req.GET["quote"] == "random"
-      [200, {"Content-Type" => "text/html"}, "\"#{@quotes.sample}\""]
       res = Rack::Response.new
-      res.write "#{@quotes.sample}"
+      res.write [200, {"Content-Type" => "text/plain"}, "\"#{@quotes.sample}\""]
+      #res.write "#{@quotes.sample}"
       res.finish
     else
-      [200, {"Content-Type" => "text/html"}, "\"#{@quotes.sample}\""]
+      [200, {"Content-Type" => "text/plain"}, "\"#{@quotes.sample}\""]
       res = Rack::Response.new
       res.write "#{@quotes.sample}"
       res.finish

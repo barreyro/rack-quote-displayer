@@ -10,6 +10,6 @@ class QuoterApp
   def call(env)
     @env = env
     @request = Rack::Request.new(env)
-    [200, { 'Content-Type' => 'text/html' }, ['This is a test quote.']]
+    [200, { 'Content-Type' => 'text/plain' }, ['This is a test quote.']]
   end
 end
