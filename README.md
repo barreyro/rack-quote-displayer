@@ -1,4 +1,4 @@
-Practice: Rack Middleware
+~*~ Practicing Rack Middleware ~*~
 =========================
 
 A practice designed to learn more about Rack middleware and
@@ -35,19 +35,18 @@ A sample fixture has been added for quotes by
 
 ### Testing
 
-As mentioned, write all tests with the Rspec framework. A testing harness
-should execute using the following command.
+All tests are written with the Rspec framework.
+The following command summonds tests:
 
     $ rspec spec
 
-_Do not test with an HTTP web interface, only test the library methods
+_Does not test with an HTTP web interface, only tests library methods
 and how they would respond if embedded in a web application._
 
 
 ### Links / Dependencies
 
-These links are provided as a helper to find information. These are not the
-only sources, so look for more if they do not give a full explanation.
+The following links were used to understand rack middleware:
 
 [Bundler](http://bundler.io/)
 
@@ -55,8 +54,15 @@ only sources, so look for more if they do not give a full explanation.
 
 [RSpec](http://rspec.info/)
 
+[Running Rack Apps](http://zaiste.net/2012/08/concisely_about_rack_applications/)
 
-### Extra credit ideas
+[Rack-Test](https://github.com/brynary/rack-test)
+
+[Rack-Tutorials](https://github.com/rack/rack/wiki/Tutorials)
+
+
+
+### Future implentations
 
 * Setup continuous integration with Magnum CI, Travis CI, or Semaphore
 * Integrate quotes via an online API
