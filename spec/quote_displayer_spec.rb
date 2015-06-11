@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'rack/quote_displayer'
-require 'rack'
 
 describe "QuoteDisplayer" do
   include Rack::Test::Methods
@@ -28,10 +26,9 @@ describe "QuoteDisplayer" do
   end
 
   describe "at GET request" do
-
-  let(:request) { Rack::MockRequest.new(app) }
-  let(:response) { request.get('/') }
-  let(:invalidparam) { request.get('/gsw') }
+    let(:request) { Rack::MockRequest.new(app) }
+    let(:response) { request.get('/') }
+    let(:invalidparam) { request.get('/gsw') }
 
     context "defaults" do
       it "to GET" do
@@ -47,7 +44,9 @@ describe "QuoteDisplayer" do
       it "is valid with a valid params"
       it "returns a quote as a text format"
       it "returns a single quote"
-      it "returns a random quote"
+      it "returns a random quote" do
+        expect(app.quotes).to include(response.body)
+      end
     end
 
     context "with invalid params" do
@@ -55,27 +54,4 @@ describe "QuoteDisplayer" do
       it "re-renders the get method"
     end
   end
-
-  describe "at POST" do
-    context "with valid params" do
-      it "returns a different quote"
-      it "is valid with a valid quote"
-      it "returns a quote as a text format"
-      xit "returns a random quote" do
-        params = {
-          test: 'test/test'
-        }
-
-        post :post_event, params
-        response.quote.should eq "test"
-      end
-    end
-
-    context "with invalid params" do
-      it "accepts raw input"
-      it "raises an error"
-      it "changes params to valid params"
-    end
-  end
-
 end

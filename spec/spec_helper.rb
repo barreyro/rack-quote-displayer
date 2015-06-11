@@ -2,11 +2,9 @@ require "rack"
 require "rspec"
 require 'spec_helper'
 require 'rack/test'
-require 'zlib'
-require 'rack/lint'
-
 require 'rack/request'
 require 'rack/response'
+require 'rack/quote_displayer'
 
 class QuoterApp
   def call(env)
