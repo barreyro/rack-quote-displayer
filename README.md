@@ -44,7 +44,7 @@ _Does not test with an HTTP web interface, only tests library methods
 and how they would respond if embedded in a web application._
 
 
-### Links / Dependencies
+### Resources
 
 The following links were used to understand rack middleware:
 
@@ -60,7 +60,7 @@ The following links were used to understand rack middleware:
 
 [Rack-Tutorials](https://github.com/rack/rack/wiki/Tutorials)
 
-
+[Rack RailsCast](http://railscasts.com/episodes/151-rack-middleware)
 
 ### Future implentations
 
