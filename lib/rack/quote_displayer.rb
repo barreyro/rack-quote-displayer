@@ -1,20 +1,25 @@
+require 'rack'
+
 class QuoteDisplayer
   attr_reader :quotes
 
-  def initialize(app)
-    @app = app #rails application
-    @quotes= IO.readlines('lib/fixtures/rickygervais.txt').each { |line| line.chomp }
+  def initialize(application)
+    @app = application
+    @quotes= IO.readlines('./spec/fixtures/rickygervais.txt').each { |line| line.chomp }
   end
 
   def call(env) #environment hash
-    req = Request.new(env)
+    req = Rack::Request.new(env)
     if req.GET["quote"] == "random"
       [200, {"Content-Type" => "text/html"}, "\"#{@quotes.sample}\""]
     else
-      raise "Invalid params"
       [200, {"Content-Type" => "text/html"}, "\"#{@quotes.sample}\""]
     end
-    puts "<a href='?quote=random'>Load Another</a></p>"
+
+    res = Rack::Response.new
+    res.write "<title>Random Ricky Quotes</title>"
+    res.write "<p><a href='?quote=random'>Load Another</a></p>"
+    res.finish
   end
 end
 
