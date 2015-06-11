@@ -1,12 +1,28 @@
 require 'rack/quote_displayer'
+require 'spec_helper'
+require 'rack/test'
 
 describe "QuoteDisplayer" do
+  let(:quoteapp) { QuoterApp.new }
+  let(:app) { QuoteDisplayer.new(quoteapp) }
 
   context "when initialized" do
-    it "retrieves quotes from fixtures directory"
-    it "retrieves one line from the file"
-    it "supports being initalized with a mock session"
-    it "supports being initialized with an app"
+    it "reads quotes from fixtures directory" do
+      expect(File.read("./lib/fixtures/rickygervais.txt")).to include "Piracy doesn't kill music, boy bands do."
+    end
+
+    it "supports being initalized with a mock session" do
+      expect(Rack::MockRequest.new(app)).to be_truthy
+    end
+
+    it "supports being initialized with an app" do
+      session = QuoteDisplayer.new(app)
+      expect(session).to be_truthy
+    end
+
+    it "raises ArgumentError when no parameters passed" do
+      expect{ QuoteDisplayer.new }.to raise_error(ArgumentError)
+    end
   end
 
   describe "at GET request" do
