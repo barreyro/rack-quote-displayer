@@ -1,14 +1,16 @@
-require 'rack/quote_displayer'
 require 'spec_helper'
-require 'rack/test'
+require 'rack/quote_displayer'
+require 'rack'
 
 describe "QuoteDisplayer" do
+  include Rack::Test::Methods
+
   let(:quoteapp) { QuoterApp.new }
   let(:app) { QuoteDisplayer.new(quoteapp) }
 
   context "when initialized" do
     it "reads quotes from fixtures directory" do
-      expect(File.read("./lib/fixtures/rickygervais.txt")).to include "Piracy doesn't kill music, boy bands do."
+      expect(File.read("./spec/fixtures/rickygervais.txt")).to include "Piracy doesn't kill music, boy bands do."
     end
 
     it "supports being initalized with a mock session" do
@@ -26,10 +28,19 @@ describe "QuoteDisplayer" do
   end
 
   describe "at GET request" do
-    context "at default" do
-      it "defaults to GET"
-      it "doesn't redirect by default"
-      it "supports sending params"
+
+  let(:request) { Rack::MockRequest.new(app) }
+  let(:response) { request.get('/') }
+  let(:invalidparam) { request.get('/gsw') }
+
+    context "defaults" do
+      it "to GET" do
+        expect(response).to be_truthy
+      end
+
+      it "do not follow redirects" do
+        expect(invalidparam).to be_truthy
+      end
     end
 
     context "with valid params" do
@@ -50,7 +61,14 @@ describe "QuoteDisplayer" do
       it "returns a different quote"
       it "is valid with a valid quote"
       it "returns a quote as a text format"
-      it "returns a random quote"
+      xit "returns a random quote" do
+        params = {
+          test: 'test/test'
+        }
+
+        post :post_event, params
+        response.quote.should eq "test"
+      end
     end
 
     context "with invalid params" do
