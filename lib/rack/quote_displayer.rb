@@ -1,5 +1,3 @@
-require 'rack'
-
 class QuoteDisplayer
   attr_reader :quotes
 
@@ -12,19 +10,14 @@ class QuoteDisplayer
     req = Rack::Request.new(env)
     if req.GET["quote"] == "random"
       [200, {"Content-Type" => "text/html"}, "\"#{@quotes.sample}\""]
+      res = Rack::Response.new
+      res.write "#{@quotes.sample}"
+      res.finish
     else
       [200, {"Content-Type" => "text/html"}, "\"#{@quotes.sample}\""]
+      res = Rack::Response.new
+      res.write "#{@quotes.sample}"
+      res.finish
     end
-
-    res = Rack::Response.new
-    res.write "<title>Random Ricky Quotes</title>"
-    res.write "<p><a href='?quote=random'>Load Another</a></p>"
-    res.finish
   end
-end
-
-
-if $0 == __FILE__
-  require 'rack'
-  Rack::Handler::WEBrick.run QuoteDisplayer.new
 end
