@@ -27,18 +27,19 @@ describe "QuoteDisplayer" do
 
   describe "at GET request" do
     let(:request) { Rack::MockRequest.new(app) }
-    let(:response) { request.get('/') }
-    let(:response2) { request.get('/') }
-    let(:invalidparam) { request.get('/GSW4LYF') }
+    let(:response) { request.get('/quote') }
+    let(:response2) { request.get('/quote') }
+    let(:invalid_param) { request.get('/GSW4LYF') }
 
     context "defaults" do
-      it "to GET" do
+      it "support sending params" do
         expect(response).to be_truthy
       end
 
       it "do not follow redirects" do
-        expect(invalidparam).to be_truthy
+        expect(invalid_param).to be_truthy
       end
+
     end
 
     context "with valid params" do
@@ -65,15 +66,15 @@ describe "QuoteDisplayer" do
 
     context "with invalid params" do
       it "is valid with a invalid params" do
-        expect(invalidparam.body).to be_truthy
+        expect(invalid_param.body).to be_truthy
       end
 
       it "returns a quote" do
-        expect(app.quotes).to include(invalidparam.body)
+        expect(app.quotes).to include(invalid_param.body)
       end
 
       it "returns a quote as a string" do
-        expect(invalidparam.body).to be_a(String)
+        expect(invalid_param.body).to be_a(String)
       end
 
       it "returns a single quote" do
@@ -81,7 +82,7 @@ describe "QuoteDisplayer" do
       end
 
       it "returns a random quote" do
-        expect(invalidparam.body).not_to eq(response2.body)
+        expect(invalid_param.body).not_to eq(response2.body)
       end
     end
   end
