@@ -30,15 +30,15 @@ describe "QuoteDisplayer" do
     let(:response)  { request.get('/quote') }
     let(:response2) { request.get('/quote') }
     let(:invalid_param) { request.get('/GSW4LYF') }
-    context "defaults" do
-      it "support sending params" do
-        expect(response).to be true
-      end
-    end
 
     context "with valid params" do
+      it "support sending params" do
+        expect{response}.to_not raise_error
+      end
+
       it "do not follow redirects" do
-        expect(response.status).to eq(200)
+        get ("/quote")
+        expect(last_request.env['PATH_INFO']).to eq('/quote')
       end
 
       it "is valid with a valid params" do
@@ -49,13 +49,12 @@ describe "QuoteDisplayer" do
         expect(app.quotes).to include(response.body)
       end
 
-      #not sure how to test content_type for middleware
-      xit "returns a response as text/plain" do
-        expect(response['CONTENT_TYPE']).to eq('text/plain')
+      it "returns a response as text/plain" do
+        expect(response['Content-Type']).to eq('text/plain')
       end
 
       it "returns a single quote" do
-        expect{ (response.body).to match(/\w+.?\/n$/)}
+        expect{(response.body).to match(/\w+.?\/n$/)}
       end
 
       it "returns a random quote" do
@@ -64,24 +63,12 @@ describe "QuoteDisplayer" do
     end
 
     context "with invalid params" do
-      it "is valid with a invalid params" do
-        expect(invalid_param.body).to be_truthy
+      it "doesn't return an error" do
+        expect{invalid_param}.to_not raise_error
       end
 
-      it "returns a quote" do
-        expect(app.quotes).to include(invalid_param.body)
-      end
-
-      it "returns a quote as a string" do
-        expect(invalid_param.body).to be_a(String)
-      end
-
-      it "returns a single quote" do
-        expect{ (response.body).to match(/\w+.?\/n$/)}
-      end
-
-      it "returns a random quote" do
-        expect(invalid_param.body).not_to eq(response2.body)
+      it "doesn't return a quote" do
+        expect(app.quotes).to_not include(invalid_param.body)
       end
     end
   end
