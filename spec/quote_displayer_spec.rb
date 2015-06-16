@@ -54,7 +54,10 @@ describe "QuoteDisplayer" do
       end
 
       it "return a single quote" do
-        expect{(response.body).to match(/\w+.?\/n$/)}
+        middleware = QuoteDisplayer.new(quoteapp)
+        allow(middleware).to receive(:get_quotes) {['my fake quote']}
+        req = Rack::MockRequest.new(middleware)
+        expect(req.get("/quote").body).to match('my fake quote')
       end
 
       it "return a random quote" do
