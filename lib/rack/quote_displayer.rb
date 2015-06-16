@@ -3,10 +3,14 @@ class QuoteDisplayer
 
   def initialize(app)
     @app = app
-    @quotes= IO.readlines('./spec/fixtures/rickygervais.txt').each { |line| line.chomp }
+  end
+
+  def get_quotes
+    IO.readlines('./spec/fixtures/rickygervais.txt').each { |line| line.chomp }
   end
 
   def call(env)
+    @quotes = get_quotes
     request = Rack::Request.new(env)
     if request.env['PATH_INFO']== "/quote"
       [200, {"Content-Type" => "text/plain"},"#{@quotes.sample}" ]
