@@ -27,22 +27,20 @@ describe "QuoteDisplayer" do
 
   describe "at GET request" do
     let(:request) { Rack::MockRequest.new(app) }
-    let(:response) { request.get('/quote') }
+    let(:response)  { request.get('/quote') }
     let(:response2) { request.get('/quote') }
     let(:invalid_param) { request.get('/GSW4LYF') }
-
     context "defaults" do
       it "support sending params" do
-        expect(response).to be_truthy
+        expect(response).to be true
       end
-
-      it "do not follow redirects" do
-        expect(invalid_param).to be_truthy
-      end
-
     end
 
     context "with valid params" do
+      it "do not follow redirects" do
+        expect(response.status).to eq(200)
+      end
+
       it "is valid with a valid params" do
         expect(response.body).to be_truthy
       end
