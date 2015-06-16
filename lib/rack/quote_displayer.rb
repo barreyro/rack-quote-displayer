@@ -1,8 +1,8 @@
 class QuoteDisplayer
   attr_reader :quotes
 
-  def initialize(application)
-    @app = application
+  def initialize(app)
+    @app = app
     @quotes= IO.readlines('./spec/fixtures/rickygervais.txt').each { |line| line.chomp }
   end
 
