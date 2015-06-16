@@ -25,14 +25,14 @@ describe "QuoteDisplayer" do
     end
   end
 
-  describe "at GET request" do
+  describe "at GET request," do
     let(:request) { Rack::MockRequest.new(app) }
     let(:response)  { request.get('/quote') }
     let(:response2) { request.get('/quote') }
     let(:invalid_param) { request.get('/GSW4LYF') }
 
-    context "with valid params" do
-      it "support sending params" do
+    context "valid params" do
+      it "supports sending params" do
         expect{response}.to_not raise_error
       end
 
@@ -41,42 +41,42 @@ describe "QuoteDisplayer" do
         expect(last_request.env['PATH_INFO']).to eq('/quote')
       end
 
-      it "is valid with a valid params" do
+      it "are valid" do
         expect(response.body).to be_truthy
       end
 
-      it "returns a quote" do
+      it "return a quote" do
         expect(app.quotes).to include(response.body)
       end
 
-      it "returns a response as text/plain" do
+      it "return a response as text/plain" do
         expect(response['Content-Type']).to eq('text/plain')
       end
 
-      it "returns a single quote" do
+      it "return a single quote" do
         expect{(response.body).to match(/\w+.?\/n$/)}
       end
 
-      it "returns a random quote" do
+      it "return a random quote" do
         expect(response.body).not_to eq(response2.body)
       end
     end
 
-    context "with invalid params" do
+    context "invalid params" do
       it "doesn't return an error" do
         expect{invalid_param}.to_not raise_error
       end
 
-      it "doesn't return a quote" do
+      it "do not return a Ricky quote" do
         expect(app.quotes).to_not include(invalid_param.body)
       end
 
-      it "doesnt change the params" do
+      it "do not change the params" do
         get ("/GSW4LYF")
         expect(last_request.env['PATH_INFO']).to eq('/GSW4LYF')
       end
 
-      it "ignores middleware" do
+      it "ignore middleware" do
         expect(invalid_param.body).to eq "Reach new app"
       end
     end
