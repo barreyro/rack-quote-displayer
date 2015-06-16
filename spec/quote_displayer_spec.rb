@@ -70,6 +70,15 @@ describe "QuoteDisplayer" do
       it "doesn't return a quote" do
         expect(app.quotes).to_not include(invalid_param.body)
       end
+
+      it "doesnt change the params" do
+        get ("/GSW4LYF")
+        expect(last_request.env['PATH_INFO']).to eq('/GSW4LYF')
+      end
+
+      it "ignores middleware" do
+        expect(invalid_param.body).to eq "Reach new app"
+      end
     end
   end
 end
