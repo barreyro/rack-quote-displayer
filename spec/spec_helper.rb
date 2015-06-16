@@ -9,6 +9,6 @@ class QuoterApp
   def call(env)
     @env = env
     @request = Rack::Request.new(env)
-
+    [200, {'Content-Type'=>'text/html'}, "Reach new app"]
   end
 end
